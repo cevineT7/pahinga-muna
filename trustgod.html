@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pahinga Muna - Isang Ligtas na Lugar para sa Iyo</title>
+    <style>
+        /* Base Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://wallpaperaccess.com/full/8636047.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #2c3e50;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        
+        
+
+      
+
+        @keyframes wipeLeftAnimation {
+            0% { top: -200px; opacity: 0; transform: rotate(0deg); }
+            30% { top: 33%; opacity: 1; transform: rotate(25deg); }
+            60% { transform: translate(15px, 10px) rotate(10deg); }
+            100% { top: -200px; opacity: 0; transform: rotate(0deg); }
+        }
+
+        @keyframes wipeRightAnimation {
+            0% { top: -200px; opacity: 0; transform: rotate(0deg); }
+            30% { top: 33%; opacity: 1; transform: rotate(-25deg); }
+            60% { transform: translate(-15px, 10px) rotate(-10deg); }
+            100% { top: -200px; opacity: 0; transform: rotate(0deg); }
+        }
+
+        /* Realistikong Patak ng Luha */
+        .tear-drop {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(174, 214, 241, 0.6));
+            border-radius: 0 50% 50% 50%;
+            transform: rotate(45deg);
+            box-shadow: 0 0 6px rgba(255,255,255,0.5);
+            opacity: 0;
+            animation: fallTears 3.5s linear infinite;
+        }
+
+        @keyframes fallTears {
+            0% { transform: translateY(0) rotate(45deg) scale(0.6); opacity: 0; }
+            15% { opacity: 0.8; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(45vh) rotate(45deg) scale(1.2); opacity: 0; }
+        }
+
+        /* Container para sa mga gumagalaw na effects sa gilid */
+        .effect-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none; 
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-particle {
+            position: absolute;
+            bottom: -50px;
+            font-size: 1.8rem;
+            opacity: 0.7;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% { transform: translateY(-105vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Modern Glassmorphic Container */
+        .container {
+            max-width: 600px;
+            padding: 40px 30px;
+            background: rgba(255, 255, 255, 0.85); 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            margin: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 10; 
+        }
+
+        h1 {
+            color: #3e6b48;
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        p.subtitle {
+            font-size: 1.1rem;
+            color: #558b87;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        /* Interactive Hug Button */
+        .hug-btn {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            color: #fff;
+            border: none;
+            padding: 16px 40px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(255, 154, 158, 0.4);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        .hug-btn:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 10px 25px rgba(255, 154, 158, 0.6);
+            background: linear-gradient(135deg, #fecfef 0%, #ff9a9e 100%);
+            color: #ff6b81;
+        }
+
+        /* QUESTIONS INTERFACE */
+        .question-section {
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .question-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #4a7c59;
+            margin-bottom: 15px;
+        }
+
+        .q-btn {
+            display: block;
+            width: 100%;
+            background: white;
+            color: #4b6584;
+            border: 1px solid #d1d8e0;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: left;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .q-btn:hover {
+            background: #f7f9fb;
+            border-color: #ff9a9e;
+            color: #ff758c;
+            transform: translateX(5px);
+        }
+
+        /* Smooth Message Box */
+        .message-box {
+            display: none;
+            margin-top: 35px;
+            padding: 25px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-left: 6px solid #ff9a9e;
+            border-radius: 14px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .message-box.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .jesus-sticker {
+            width: 180px;
+            height: auto;
+            margin-bottom: 15px;
+            border-radius: 12px;
+        }
+
+        .verse {
+            font-style: italic;
+            font-size: 1.15rem;
+            color: #34495e;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .reference {
+            font-weight: bold;
+            color: #4a7c59;
+            font-size: 0.95rem;
+        }
+
+        /* FLOATING POPUP MESSAGE */
+        .toast-popup {
+            position: fixed;
+            bottom: 25px;
+            right: -350px;
+            width: 320px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 5px solid #ff758c;
+            transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 9999;
+            text-align: left;
+        }
+
+        .toast-popup.show {
+            right: 25px;
+        }
+
+        .toast-icon {
+            font-size: 1.8rem;
+        }
+
+        .toast-content p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+
+        .toast-close {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: #bdc3c7;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .toast-close:hover {
+            color: #7f8c8d;
+        }
+
+        footer {
+            margin-top: 45px;
+            font-size: 0.85rem;
+            color: #5d6d7e;
+            line-height: 1.6;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- REALISTIC BACKGROUND EFFECTS -->
+    <div class="cinematic-background">
+        <div id="eyeLeft" class="realistic-eye eye-left"></div>
+        <div id="eyeRight" class="realistic-eye eye-right"></div>
+        
+        <div id="handLeft" class="divine-hand hand-left"></div>
+        <div id="handRight" class="divine-hand hand-right"></div>
+        
+        <div id="tearContainer"></div>
+    </div>
+
+    <!-- CONTAINER PARA SA MGA EPEKTO SA GILID -->
+    <div id="effectContainer" class="effect-container"></div>
+
+    <!-- FLOATING POPUP MESSAGE -->
+    <div id="toastNotification" class="toast-popup">
+        <button class="toast-close" onclick="itagoPopup()">×</button>
+        <span id="toastIcon" class="toast-icon">✨</span>
+        <div class="toast-content">
+            <p><strong>Bulong sa puso mo:</strong></p>
+            <p id="toastText">Nag-iisip ng sasabihin...</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Kumusta Ka?</h1>
+        <p class="subtitle">Yung mga kabiguan sa buhay, minsan, ipinahihintulot ng Diyos para mas patatagin at pagandahin ang iyong pagkatao.</p>
+
+        <button class="hug-btn" onclick="bigayYakap()">Basahin ang mga salita niya 📖</button>
+
+        <!-- DYNAMIC TANONG SA DIYOS INTERFACE -->
+        <div class="question-section">
+            <p class="question-title">Kung may tanong ka sa Diyos ngayon, ano iyon?</p>
+            <button class="q-btn" onclick="sagutinAngTanong('bakit')">"Bakit mo hinahayaang masaktan at mahirapan ako?"</button>
+            <button class="q-btn" onclick="sagutinAngTanong('nasaan')">"Nasaan ka nung mga oras na pakiramdam ko mag-isa ako?"</button>
+            <button class="q-btn" onclick="sagutinAngTanong('plano')">"May maganda pa bang plano sa magulo kong buhay?"</button>
+        </div>
+
+        <div id="hugMessage" class="message-box">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTn_1vMBOwKToXCXVYywlyPr48Q7dljllCMJA&s=500" alt="Yakap ni Jesus" class="jesus-sticker">
+            
+            <h2 id="responseHeader" style="color: #ff758c; margin-top: 10px; font-size: 1.5rem;">Yakap mula sa Kanya</h2>
+            <p id="responseText" style="font-size: 1rem; color: #566573; line-height: 1.5;">
+                <strong>Mas dakila ang Diyos sa lahat ng problema natin.</strong><br>
+                Kung isusuko mo ang iyong mga alalahanin sa Kanya, mapapalitan ng kapayapaan ang iyong lungkot.
+            </p>
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+            <p id="bibleVerse" class="verse">"Lumapit kayo sa akin, kayong lahat na napapagal at mabibigatan sa inyong dinadala, at kayo'y aking pagpapahingahin."</p>
+            <p id="bibleRef" class="reference">Mateo 11:28</p>
+        </div>
+
+        <footer>
+            <p>Your failures, your mistakes, your shortcomings, 'yung mga frustration mo sa buhay—kaya ipinahintulot ng Diyos 'yan para hulmahin ka na maging mas mabuting tao.</p>
+            <p>Kahit ano pa ang iyong maranasan, laging itanim sa isip: <strong>'Hindi ako mapapabayaan.'</strong></p>
+        </footer>
+    </div>
+
+    <script>
+        const mgaVerses = [
+            {
+                verse: "Sumagot si Jesus... 'Bago ka tinawag ni Felipe, nang ikaw ay nasa ilalim ng puno ng igos, ay nakita kita.' Sinagot siya ni Nathanael, 'Rabi, kayo ang Anak ng Dios!'",
+                ref: "Juan 1:48-49",
+                popup: "Kung sa tingin mo walang nakakakita sa mga tahimik mong iyak... Hoy, matagal ka na Niyang binabantayan. 🌳",
+                icon: "🌳",
+                particles: ["🍃", "🌿", "🌱"]
+            },
+            {
+                verse: "Sumumpa si Job: 'Sana'y natunaw na lang ako... Bakit may buhay pa para sa nagdurusa?' Ngunit sinagot siya ng Dios: 'Nasaan ka nang ilatag ko ang pundasyon ng mundo?'",
+                ref: "Job 38:1-4",
+                popup: "Valid na gustuhin mong sumuko sa tindi ng problema. Pero tandaan mo: Hawak Niya ang bagyo. 🌪️",
+                icon: "🌪️",
+                particles: ["💨", "☁️", "🌀"]
+            },
+            {
+                verse: "Araw-araw akong umiiyak; binabaha ko ng luha ang aking higaan... Ngunit dinalangin ko, 'Pakinggan mo ako, O Dios!' At sinagot Siya: 'Pinunasan ko na ang iyong mga luha.'",
+                ref: "Awit 6:6",
+                popup: "Yung mga gabi na basang-basa ng luha 'yang unan mo? Hindi 'yan sayang. Naririnig Niya ang bawat hikbi mo. 💧",
+                icon: "💧",
+                particles: ["💧", "🌧️", "💦"]
+            }
+        ];
+
+        // MGA KASAGUTAN SA MGA TANONG SA DIYOS
+        const mgaSagotSaTanong = {
+            bakit: {
+                header: "Sagot sa iyong 'Bakit?'",
+                text: "Ang ginto ay kailangang dumaan sa matinding apoy para dumalisay. Ang mga sugat at sakit na nararanasan mo ngayon ay hindi parusa, kundi paghahanda para sa isang mas matatag na bersyon ng iyong sarili.",
+                verse: "Sapagkat alam ko ang mga plano ko para sa inyo, mga planong magpapala sa inyo at hindi magdudulot ng kabiguan, mga planong magbibigay sa inyo ng kinabukasan at pag-asa.",
+                ref: "Jeremias 29:11",
+                popup: "Hinuhubog ka lang Niya ngayon, huwag kang matakot sa proseso. ✨",
+                icon: "✨",
+                particles: ["✨", "🛡️", "🤍"]
+            },
+            nasaan: {
+                header: "Nasaan Siya?",
+                text: "Noong mga gabi na akala mo ay tuluyan ka nang iniwan ng lahat, doon Siya mas nagbabantay. May mga pagkakataon na nananahimik ang Diyos hindi dahil malayo Siya, kundi dahil karga-karga ka na Niya nang hindi mo namamalayan.",
+                verse: "Ang Panginoon ay malapit sa kanila na may bagbag na puso, At inililigtas ang mga may pagsisising diwa.",
+                ref: "Mga Awit 34:18",
+                popup: "Hindi ka nag-iisa kahit isang segundo, laging tandaan 'yan. 🙏",
+                icon: "🙏",
+                particles: ["🤍", "🙏", "✨"]
+            },
+            plano: {
+                header: "Ang Kanyang Plano sa Iyo",
+                text: "Ang kwento mo ay hindi nagtatapos sa kasalukuyan mong magulong pahina. Ang bawat luhang pumatak at bawat pagkakamali ay itatahi Niya para makabuo ng isang napakagandang obra maestra sa tamang panahon.",
+                verse: "Nalalaman natin na ang lahat ng mga bagay ay nagkakalakip na gumagawa sa ikabubuti ng mga nagsisiibig sa Dios.",
+                ref: "Roma 8:28",
+                popup: "Magtiwala ka, maganda ang dulo ng kwentong isinusulat Niya para sa iyo. 🌟",
+                icon: "🌟",
+                particles: ["✨", "🌟", "☀️"]
+            }
+        };
+
+        let timerNgPopup;
+        let isWiping = false;
+
+        window.onload = function() {
+            simulanAngPatakNgLuha();
+        };
+
+        // Automatic na lumuluha ang dalawang mata sa background
+        function simulanAngPatakNgLuha() {
+            const tearContainer = document.getElementById('tearContainer');
+            setInterval(() => {
+                if (!isWiping) {
+                    const tearLeft = document.createElement('div');
+                    tearLeft.classList.add('tear-drop');
+                    tearLeft.style.left = "8.5vw";
+                    tearLeft.style.top = "42%";
+                    tearContainer.appendChild(tearLeft);
+
+                    const tearRight = document.createElement('div');
+                    tearRight.classList.add('tear-drop');
+                    tearRight.style.right = "8.5vw";
+                    tearRight.style.top = "42%";
+                    tearContainer.appendChild(tearRight);
+                    
+                    setTimeout(() => { tearLeft.remove(); tearRight.remove(); }, 3500);
+                }
+            }, 3000);
+        }
+
+        function bigayYakap() {
+            const randomIndex = Math.floor(Math.random() * mgaVerses.length);
+            const napilingData = mgaVerses[randomIndex];
+
+            ipakitaAngMensahe(
+                "Yakap mula sa Kanya",
+                "<strong>Mas dakila ang Diyos sa lahat ng problema natin.</strong><br>Kung isusuko mo ang iyong mga alalahanin sa Kanya, mapapalitan ng kapayapaan ang iyong lungkot.",
+                napilingData.verse,
+                napilingData.ref
+            );
+
+            papasukinAngPopup(napilingData.popup, napilingData.icon);
+            gumawaNgEffectsSaGilid(napilingData.particles);
+            punasanAngMgaMata();
+        }
+
+        // FUNCTION KAPAG PININDOT ANG MGA KASAGUTAN SA TANONG
+        function sagutinAngTanong(key) {
+            const data = mgaSagotSaTanong[key];
+            if (!data) return;
+
+            ipakitaAngMensahe(data.header, data.text, data.verse, data.ref);
+            papasukinAngPopup(data.popup, data.icon);
+            gumawaNgEffectsSaGilid(data.particles);
+            punasanAngMgaMata();
+        }
+
+        function ipakitaAngMensahe(header, text, verse, ref) {
+            document.getElementById('responseHeader').innerHTML = header;
+            document.getElementById('responseText').innerHTML = text;
+            document.getElementById('bibleVerse').innerText = verse;
+            document.getElementById('bibleRef').innerText = ref;
+
+            const messageBox = document.getElementById('hugMessage');
+            messageBox.style.display = 'block';
+            setTimeout(() => { messageBox.classList.add('show'); }, 10);
+
+            setTimeout(() => {
+                messageBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
+
+        // ANIMATION ENGINE NG MGA REALISTIKONG KAMAY NA MAGPUPUNAS
+        function punasanAngMgaMata() {
+            const handLeft = document.getElementById('handLeft');
+            const handRight = document.getElementById('handRight');
+            const eyeLeft = document.getElementById('eyeLeft');
+            const eyeRight = document.getElementById('eyeRight');
+            const tearContainer = document.getElementById('tearContainer');
+
+            isWiping = true;
+
+            handLeft.classList.remove('wipe-left');
+            handRight.classList.remove('wipe-right');
+            void handLeft.offsetWidth; 
+            void handRight.offsetWidth;
+
+            handLeft.classList.add('wipe-left');
+            handRight.classList.add('wipe-right');
+
+            setTimeout(() => {
+                tearContainer.innerHTML = ''; 
+                eyeLeft.style.opacity = "0.8";
+                eyeRight.style.opacity = "0.8";
+                eyeLeft.style.filter = "drop-shadow(0 0 25px rgba(255, 235, 165, 0.9))";
+                eyeRight.style.filter = "drop-shadow(0 0 25px rgba(255, 235, 165, 0.9))";
+            }, 800);
+
+            setTimeout(() => {
+                eyeLeft.style.opacity = "0.4";
+                eyeRight.style.opacity = "0.4";
+                eyeLeft.style.filter = "inset 0 0 15px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.1)";
+                eyeRight.style.filter = "inset 0 0 15px rgba(0,0,0,0.3), 0 0 20px rgba(255,255,255,0.1)";
+                isWiping = false;
+            }, 2800);
+        }
+
+        function gumawaNgEffectsSaGilid(mgaEmojis) {
+            const container = document.getElementById('effectContainer');
+            container.innerHTML = ''; 
+
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('floating-particle');
+                
+                const randomEmoji = mgaEmojis[Math.floor(Math.random() * mgaEmojis.length)];
+                particle.innerText = randomEmoji;
+
+                const saKaliwaBa = Math.random() > 0.5;
+                const randomX = saKaliwaBa ? (Math.random() * 20) : (80 + Math.random() * 15);
+                particle.style.left = randomX + 'vw';
+
+                const randomSize = 1.2 + Math.random() * 1.5; 
+                const randomDelay = Math.random() * 3; 
+                const randomDuration = 4 + Math.random() * 4; 
+
+                particle.style.fontSize = randomSize + 'rem';
+                particle.style.animationDelay = randomDelay + 's';
+                particle.style.animationDuration = randomDuration + 's';
+
+                container.appendChild(particle);
+            }
+        }
+
+        function papasukinAngPopup(mensahe, icon) {
+            const popup = document.getElementById('toastNotification');
+            popup.classList.remove('show');
+            clearTimeout(timerNgPopup);
+
+            setTimeout(() => {
+                document.getElementById('toastText').innerText = mensahe;
+                document.getElementById('toastIcon').innerText = icon;
+                popup.classList.add('show');
+                patugtuginAngNotification();
+
+                timerNgPopup = setTimeout(() => { itagoPopup(); }, 8000);
+            }, 100);
+        }
+
+        function itagoPopup() {
+            document.getElementById('toastNotification').classList.remove('show');
+        }
+
+        function patugtuginAngNotification() {
+            try {
+                const context = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = context.createOscillator();
+                const gain = context.createGain();
+                
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, context.currentTime); 
+                osc.frequency.setValueAtTime(659.25, context.currentTime + 0.1); 
+                
+                gain.gain.setValueAtTime(0.08, context.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.4);
+                
+                osc.connect(gain);
+                gain.connect(context.destination);
+                osc.start();
+                osc.stop(context.currentTime + 0.4);
+            } catch(e) {}
+        }
+    </script>
+
+</body>
+</html>
